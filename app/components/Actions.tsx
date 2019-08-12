@@ -1,13 +1,13 @@
 import * as React from 'react'
 
-function Actions({addModel, changeModel, saveDiagram, currentModel, models}) {
+function Actions({add, change, save, current, models}) {
     return (
         <div className={'actions'}>
-            {Object.keys(models).map(key => (
-                <button key={key} onClick={() => changeModel(key)} style={{fontWeight: String(currentModel) === key ? 'bold' : 'unset'}}>Model {key}</button>
+            {models && Object.keys(models).map((key, index) => (
+                <button key={key} onClick={() => change(key)} style={{fontWeight: String(current) === key ? 'bold' : 'unset'}}>Model {index + 1}</button>
             ))}
-            <button onClick={addModel}>New Model</button>
-            <button onClick={saveDiagram}>Save Diagram</button>
+            <button onClick={add}>New Model</button>
+            <button onClick={save}>Save Diagram</button>
         </div>
     )
 }

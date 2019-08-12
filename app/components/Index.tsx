@@ -2,48 +2,17 @@ import * as React from 'react'
 import Diagram from './Diagram';
 import Palette from './Palette';
 import Actions from './Actions';
-import './main.scss';
-
-import go = require('gojs');
 import { container } from '../../inversify.config';
 import { componentSymbols } from '../IoC/Symbols';
+import DiagramStorage from '../helpers/DiagramStorage';
 
-declare global {
-    interface Window {
-        myDiagram: go.Diagram
-        myPalette: go.Palette
-    }
-}
+import './main.scss';
 
-function App() {
-    const [uniqId, setUniqId] = React.useState(null)
+const Storage = new DiagramStorage();
+
+function Index() {
+    const [current, setCurrent] = React.useState(null)
     const [models, setModels] = React.useState({})
-    const [currentModel, setCurrentModel] = React.useState(null)
-
-    const saveModel = () => {
-        if (window.myDiagram.model.nodeDataArray.length > 0) {
-            const newModels = {...models, [currentModel]: window.myDiagram.model.toJson()}
-            setModels(newModels)
-        }
-    }
-
-    const saveDiagram = () => {
-        saveModel()
-        localStorage.setItem('gojs', JSON.stringify({ uniqId, currentModel, models: {...models, [currentModel]: window.myDiagram.model.toJson()} }))
-    }
-
-    const changeModel = (key) => {
-        saveModel()
-        setCurrentModel(String(key))
-    }
-
-    const addModel = () => {
-        saveModel()
-        const key = uniqId + 1
-        setUniqId(key)
-        setModels({...models, [key]: new go.GraphLinksModel()})
-        setCurrentModel(String(key))
-    }
 
     React.useEffect(() => {
         const diagramFactory = container.get<Function>(componentSymbols.diagramFactory);
@@ -52,26 +21,30 @@ function App() {
         window.myPalette = paletteFactory();
 
         window.myDiagram.requestUpdate();
-        const storage = localStorage.getItem("gojs");
-        console.log(storage)
-        if (storage) {
-            const data = JSON.parse(storage)
-            setUniqId(data.uniqId)
-            setModels(data.models)   
-            setCurrentModel(data.currentModel)
-        } else {
-            setUniqId(1)
-            setModels({
-                [1]: null
-            })
-            setCurrentModel(1)
-        }
+
+        Storage.init();
+        reload()
     }, [])
 
-    React.useEffect(() => {
-        console.log(models[currentModel])
-        window.myDiagram.model = go.Model.fromJson(models[currentModel] || new go.GraphLinksModel())
-    }, [currentModel])
+    const reload = () => {
+        setModels(Storage.getModels())
+        setCurrent(Storage.getCurrent())
+        Storage.updateDiagram();
+    }
+
+    const save = () => {
+        Storage.save()
+    }
+
+    const add = () => {
+        Storage.add()
+        reload()
+    }
+
+    const change = (key) => {
+        Storage.change(key)
+        reload()
+    }
 
     return (
         <div className={'container'}>
@@ -79,9 +52,10 @@ function App() {
                 <Palette />
                 <Diagram />
             </div>
-            <Actions {...{currentModel, models, saveDiagram, changeModel, addModel}} />
+            {console.log("WAIT", models)}
+            <Actions {...{current, models, save, change, add}} />
         </div>
     )
 }
 
-export default App;
+export default Index;

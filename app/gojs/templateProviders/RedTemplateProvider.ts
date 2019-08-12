@@ -17,6 +17,7 @@ export default class RedTemplateProvider {
             {
                 locationSpot: go.Spot.Center
             },
+            new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
             $(go.Shape, 'RoundedRectangle', { desiredSize: new go.Size(100, 100), fill: 'red' })
         );
     }
