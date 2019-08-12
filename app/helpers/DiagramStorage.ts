@@ -27,6 +27,7 @@ class DiagramStorage {
     }
 
     add() {
+        this.updateModel();
         this.current = this.getUniqId();
         this.models = { ...this.models, [this.current]: null };
         this.updateDiagram();
