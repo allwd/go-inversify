@@ -12,22 +12,33 @@ class DiagramStorage {
     }
 
     getUniqId() {
-        return String(new Date().getUTCMilliseconds());
+        let max = 1;
+        if (this.models) {
+            console.log(this.models)
+            Object.keys(this.models).forEach(key => {
+                const number = Number(key)
+                if (number >= max) {
+                    max = number + 1
+                }
+            })
+        }
+        console.log(max)
+        return String(max);
     }
 
     add() {
         this.current = this.getUniqId();
-        this.models = {...this.models, [this.current]: new go.GraphLinksModel()};
+        this.models = { ...this.models, [this.current]: null };
         this.updateDiagram();
     }
 
-    change (key) {
+    change(key) {
         this.updateModel();
         this.current = key;
         this.updateDiagram();
     }
 
-    updateModel () {
+    updateModel() {
         try {
             this.models[this.current] = window.myDiagram.model.toJson();
         } catch {
@@ -35,16 +46,16 @@ class DiagramStorage {
         }
     }
 
-    updateDiagram () {
-        window.myDiagram.model = go.Model.fromJson(this.models[this.current]);
+    updateDiagram() {
+        window.myDiagram.model = go.Model.fromJson(this.models[this.current] || new go.GraphLinksModel());
     }
 
-    save () {
+    save() {
         this.updateModel();
         localStorage.setItem('gojs', JSON.stringify({ models: this.models, current: this.current }));
     }
 
-    load () {
+    load() {
         const storage = localStorage.getItem('gojs')
         if (!storage) {
             return
@@ -59,11 +70,11 @@ class DiagramStorage {
         this.models = models
     }
 
-    getCurrent () {
+    getCurrent() {
         return this.current;
     }
 
-    getModels () {
+    getModels() {
         return this.models;
     }
 }
