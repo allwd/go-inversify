@@ -6,6 +6,7 @@ import Palette from '../gojs/Palette';
 import RedTemplateProvider from '../gojs/templateProviders/RedTemplateProvider';
 import GreenTemplateProvider from '../gojs/templateProviders/GreenTemplateProvider';
 import DiagramStorage from '../helpers/DiagramStorage';
+import Container from '../helpers/Container';
 
 const componentsModule = new ContainerModule((bind: interfaces.Bind) => {
     decorate(injectable(), go.Diagram);
@@ -20,6 +21,7 @@ const componentsModule = new ContainerModule((bind: interfaces.Bind) => {
         .toAutoFactory(componentSymbols.palette);
     
     bind<DiagramStorage>(componentSymbols.diagramStorage).to(DiagramStorage).inSingletonScope();
+    bind<Container>(componentSymbols.container).to(Container).inSingletonScope();
 
     bind<RedTemplateProvider>(componentSymbols.nodeTemplateProvider).to(RedTemplateProvider);
     bind<GreenTemplateProvider>(componentSymbols.nodeTemplateProvider).to(GreenTemplateProvider);

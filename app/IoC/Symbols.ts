@@ -9,5 +9,6 @@ export const componentSymbols: any = {
     palette: Symbol('palette'),
     paletteFactory: Symbol('paletteFactory'),
     nodeTemplateProvider: Symbol('nodeTemplateProvider'),
-    diagramStorage: Symbol('diagramStorage')
+    diagramStorage: Symbol('diagramStorage'),
+    container: Symbol('container')
 };

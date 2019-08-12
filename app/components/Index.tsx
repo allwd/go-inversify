@@ -7,20 +7,17 @@ import { componentSymbols } from '../IoC/Symbols';
 import DiagramStorage from '../helpers/DiagramStorage';
 
 import './main.scss';
+import ContainerClass from '../helpers/Container';
+
 const Storage: DiagramStorage = container.get(componentSymbols.diagramStorage);
+const Container: ContainerClass = container.get(componentSymbols.container);
 
 function Index() {
     const [current, setCurrent] = React.useState(null)
     const [models, setModels] = React.useState({})
 
     React.useEffect(() => {
-        const diagramFactory = container.get<Function>(componentSymbols.diagramFactory);
-        const paletteFactory = container.get<Function>(componentSymbols.paletteFactory);
-        window.myDiagram = diagramFactory();
-        window.myPalette = paletteFactory();
-
-        window.myDiagram.requestUpdate();
-
+        Container.init();
         Storage.init();
         reload()
     }, [])
