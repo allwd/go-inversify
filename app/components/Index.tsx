@@ -52,7 +52,6 @@ function Index() {
                 <Palette />
                 <Diagram />
             </div>
-            {console.log("WAIT", models)}
             <Actions {...{current, models, save, change, add}} />
         </div>
     )
