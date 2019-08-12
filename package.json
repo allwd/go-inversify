@@ -4,7 +4,7 @@
   "description": "",
   "main": "app/index.tsx",
   "scripts": {
-    "webpack": "webpack",
+    "build": "webpack",
     "start": "webpack-dev-server --open --hot"
   },
   "keywords": [],
