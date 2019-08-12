@@ -1,6 +1,5 @@
 import { container } from '../inversify.config';
 import { componentSymbols } from './IoC/Symbols';
-import './main.scss';
 import go = require('gojs');
 
 declare global {

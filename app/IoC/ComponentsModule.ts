@@ -1,10 +1,10 @@
 import { ContainerModule, interfaces, decorate, injectable } from 'inversify';
 import { componentSymbols } from './Symbols';
 import * as go from 'gojs';
-import Diagram from '../components/Diagram';
-import Palette from '../components/Palette';
-import RedTemplateProvider from '../components/templateProviders/RedTemplateProvider';
-import GreenTemplateProvider from '../components/templateProviders/GreenTemplateProvider';
+import Diagram from '../gojs/Diagram';
+import Palette from '../gojs/Palette';
+import RedTemplateProvider from '../gojs/templateProviders/RedTemplateProvider';
+import GreenTemplateProvider from '../gojs/templateProviders/GreenTemplateProvider';
 
 const componentsModule = new ContainerModule((bind: interfaces.Bind) => {
     decorate(injectable(), go.Diagram);

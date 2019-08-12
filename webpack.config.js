@@ -8,7 +8,7 @@ const PATHS = {
 
 module.exports = {
     entry: {
-        app: ['./app/app.ts'],
+        app: ['./app/index.tsx'],
         vendor: ['inversify', 'reflect-metadata', 'es6-symbol', 'gojs']
     },
     output: {
@@ -16,19 +16,24 @@ module.exports = {
         filename: '[name].js'
     },
     resolve: {
-        extensions: ['.js', '.ts']
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
     },
     module: {
         rules: [
             {
-                test: /\.ts$/,
-                include: /app/,
+                test: /\.tsx?$/,
+                enforce: 'pre',
+                include: [/app/],
                 exclude: /node_modules/,
-                use: ['awesome-typescript-loader']
+                loader: 'eslint-loader',
+                options: { emitErrors: true, typeCheck: false, failOnHint: true }
             },
             {
-                test: /\.js$/,
-                use: ['source-map-loader']
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'ts-loader'
+                }
             },
             {
                 test: /\.scss$/,

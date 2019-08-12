@@ -4,6 +4,7 @@
     "target": "es5",
     "sourceMap": true,
     "skipDefaultLibCheck": true,
+    "jsx": "react",
     "lib": [
       "es7",
       "dom",
