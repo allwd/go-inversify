@@ -2,7 +2,7 @@ import * as go from 'gojs';
 import { injectable } from 'inversify';
 
 @injectable()
-export default class AnotherTemplateProvider {
+export default class GreenTemplateProvider {
     public category = 'green'
 
     provideTemplate() {

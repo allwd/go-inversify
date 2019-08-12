@@ -3,8 +3,8 @@ import { componentSymbols } from './Symbols';
 import * as go from 'gojs';
 import Diagram from '../components/Diagram';
 import Palette from '../components/Palette';
-import NodeTemplateProvider from '../components/templateProviders/NodeTemplateProvider';
-import AnotherTemplateProvider from '../components/templateProviders/AnotherTemplateProvider';
+import RedTemplateProvider from '../components/templateProviders/RedTemplateProvider';
+import GreenTemplateProvider from '../components/templateProviders/GreenTemplateProvider';
 
 const componentsModule = new ContainerModule((bind: interfaces.Bind) => {
     decorate(injectable(), go.Diagram);
@@ -18,8 +18,8 @@ const componentsModule = new ContainerModule((bind: interfaces.Bind) => {
     bind<interfaces.Factory<Palette>>(componentSymbols.paletteFactory)
         .toAutoFactory(componentSymbols.palette);
 
-    bind<NodeTemplateProvider>(componentSymbols.nodeTemplateProvider).to(NodeTemplateProvider);
-    bind<AnotherTemplateProvider>(componentSymbols.nodeTemplateProvider).to(AnotherTemplateProvider);
+    bind<RedTemplateProvider>(componentSymbols.nodeTemplateProvider).to(RedTemplateProvider);
+    bind<GreenTemplateProvider>(componentSymbols.nodeTemplateProvider).to(GreenTemplateProvider);
 });
 
 export default componentsModule;
