@@ -1,5 +1,7 @@
 import go = require('gojs');
+import { injectable } from 'inversify';
 
+@injectable()
 class DiagramStorage {
     private models;
     private current;
@@ -14,7 +16,6 @@ class DiagramStorage {
     getUniqId() {
         let max = 1;
         if (this.models) {
-            console.log(this.models)
             Object.keys(this.models).forEach(key => {
                 const number = Number(key)
                 if (number >= max) {
@@ -22,7 +23,7 @@ class DiagramStorage {
                 }
             })
         }
-        console.log(max)
+        
         return String(max);
     }
 
@@ -66,7 +67,7 @@ class DiagramStorage {
             models,
             current
         } = JSON.parse(storage)
-        console.log(models)
+        
         this.current = current
         this.models = models
     }

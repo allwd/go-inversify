@@ -11,6 +11,6 @@ export default class Palette extends go.Palette {
         this.linkTemplate = window.myDiagram.linkTemplate
         this.nodeTemplateMap = window.myDiagram.nodeTemplateMap
         
-        this.model.nodeDataArray = [{ color: "blue", category: 'green' }, { category: 'red'}];
+        this.model.nodeDataArray = [{ category: 'green' }, { category: 'red' }];
     }
 }

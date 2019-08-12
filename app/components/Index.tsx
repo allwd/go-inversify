@@ -7,8 +7,7 @@ import { componentSymbols } from '../IoC/Symbols';
 import DiagramStorage from '../helpers/DiagramStorage';
 
 import './main.scss';
-
-const Storage = new DiagramStorage();
+const Storage: DiagramStorage = container.get(componentSymbols.diagramStorage);
 
 function Index() {
     const [current, setCurrent] = React.useState(null)
