@@ -14,9 +14,6 @@ export default class RedTemplateProvider {
 
         return $(go.Node,
             go.Panel.Spot, 
-            // {
-            //     locationSpot: go.Spot.Center
-            // },
             $(go.Shape, 'RoundedRectangle', { desiredSize: new go.Size(100, 100), fill: 'red' }),
             $(go.TextBlock,
                 {

@@ -19,38 +19,32 @@ class GridLayout extends go.GridLayout {
                 return textA < textB ? -1 : 1;
             })
 
-        const { width, height } = items[0].naturalBounds;
+        const { width, height } = items[0].actualBounds;
+        const { right } = this.diagram.viewportBounds;
 
         this.arrangementOrigin = this.initialOrigin(this.arrangementOrigin);
         let { x, y } = this.arrangementOrigin;
-        let isRtl = true
+        let isRtl = false
+        let left = x
 
         const boxWidth = width + this.spacing.width
         const boxHeight = height + this.spacing.height
 
-        const leftColX = x
-        const rightColX = x + width + this.spacing.width
-
-        const smallScreen = this.diagram.viewportBounds.width < boxWidth
+        const initialX = x
+        let lastX = 0
 
         for (let i = 0; i < items.length; i++) {
-            let first = isRtl ? leftColX : rightColX;
-            let second = !isRtl ? leftColX : rightColX;
-            let newX = i % 2 === 0 ? first : second
-
-            if (smallScreen) {
-                newX = first
-                y += boxHeight
-            }
-
             const node = items[i]
-            node.move(new go.Point(newX, y))
+            node.move(new go.Point(x, y))
 
             if (!(node instanceof go.Node)) {
                 continue;
             }
 
-            if (i % 2 !== 0 && !smallScreen) {
+            lastX = x
+            x += (isRtl ? -1 : 1) * boxWidth
+            if (x + width >= right || x < left) {
+                x = isRtl ? initialX : lastX;
                 y += boxHeight
                 isRtl = !isRtl
             }

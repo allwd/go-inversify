@@ -12,6 +12,7 @@ function Reloadable() {
         const value = !reloadable
         setReloadable(value)
         Container.getDiagram().setReloadable(value)
+        Container.getDiagram().reloadChanges(null, true)
     }
 
     return (

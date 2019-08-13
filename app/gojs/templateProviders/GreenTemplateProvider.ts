@@ -14,9 +14,6 @@ export default class GreenTemplateProvider {
 
         return $(go.Node,
             go.Panel.Spot,
-            // {
-            //     locationSpot: go.Spot.Center
-            // },
             $(go.Shape, 'RoundedRectangle', { desiredSize: new go.Size(100, 100), fill: 'green' }),
             $(go.TextBlock,
                 {
@@ -32,3 +29,4 @@ export default class GreenTemplateProvider {
         );
     }
 }
+// move adding text to onExternalObject Dropped
