@@ -19,7 +19,7 @@ class GridLayout extends go.GridLayout {
                 return textA < textB ? -1 : 1;
             })
 
-        const { width, height } = items[0].actualBounds;
+        let { width, height } = items[0].actualBounds;
         const { right } = this.diagram.viewportBounds;
 
         this.arrangementOrigin = this.initialOrigin(this.arrangementOrigin);
@@ -34,7 +34,8 @@ class GridLayout extends go.GridLayout {
         let lastX = 0
 
         for (let i = 0; i < items.length; i++) {
-            const node = items[i]
+            const node = items[i];
+            ({ width, height } = node.actualBounds);
             node.move(new go.Point(x, y))
 
             if (!(node instanceof go.Node)) {

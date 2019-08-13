@@ -12,6 +12,9 @@ export default class Diagram extends go.Diagram {
     constructor( @inject(constantsSymbols.diagramSelector) diagramSelector: string,
         @multiInject(componentSymbols.nodeTemplateProvider) nodeTemplateProvider: Array<RedTemplateProvider | GreenTemplateProvider>) {
         super(document.querySelector(diagramSelector) as HTMLDivElement);
+        window.onresize = () => {
+            this.requestUpdate();
+        }
         this.undoManager.isEnabled = true;
         this.allowDrop = true;
         this.layout = go.GraphObject.make(GridLayout);
@@ -30,7 +33,6 @@ export default class Diagram extends go.Diagram {
 
         this.addDiagramListener("ExternalObjectsDropped", (event) => {
             const index = this.model.nodeDataArray.reduce((prev, current) =>{
-                console.log( (!prev || current.index >= prev) ? current.index + 1 : prev)
                 return (!prev || current.index >= prev) ? current.index + 1 : prev
             }, 1)
             this.model.setDataProperty(event.subject.first().data, "index", index)
