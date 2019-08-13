@@ -23,7 +23,7 @@ export default class RedTemplateProvider {
                     alignment: go.Spot.Bottom,
                     alignmentFocus: go.Spot.Top
                 },
-                new go.Binding('text', 'key', value => `EL_${Math.abs(Number(value))}`),
+                new go.Binding('text', 'index', value => `EL_${Math.abs(Number(value))}`),
                 new go.Binding('text', 'text').makeTwoWay()
             )
         );

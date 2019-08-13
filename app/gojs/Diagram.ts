@@ -27,6 +27,14 @@ export default class Diagram extends go.Diagram {
                 go.CommandHandler.prototype.doKeyDown.call(this);
             }
         }
+
+        this.addDiagramListener("ExternalObjectsDropped", (event) => {
+            const index = this.model.nodeDataArray.reduce((prev, current) =>{
+                console.log( (!prev || current.index >= prev) ? current.index + 1 : prev)
+                return (!prev || current.index >= prev) ? current.index + 1 : prev
+            }, 1)
+            this.model.setDataProperty(event.subject.first().data, "index", index)
+        })
         
         nodeTemplateProvider.forEach(template => this.nodeTemplateMap.add(template.category, template.provideTemplate()));
     }
