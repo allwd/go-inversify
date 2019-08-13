@@ -21,14 +21,24 @@ class GridLayout extends go.GridLayout {
 
         this.arrangementOrigin = this.initialOrigin(this.arrangementOrigin);
         let { x, y } = this.arrangementOrigin;
+        const boxWidth = width + this.spacing.width
+        const boxHeight = height + this.spacing.height
+
         const leftColX = x
         const rightColX = x + width + this.spacing.width
         let isRtl = true
 
+        const smallScreen = this.diagram.viewportBounds.width < boxWidth
+
         for (let i = 0; i < array.length; i++) {
             let first = isRtl ? leftColX : rightColX;
             let second = !isRtl ? leftColX : rightColX;
-            const newX = i % 2 === 0 ? first : second
+            let newX = i % 2 === 0 ? first : second
+
+            if (smallScreen) {
+                newX = first
+                y += boxHeight
+            }
 
             const node = array[i]
             node.move(new go.Point(newX, y))
@@ -37,8 +47,8 @@ class GridLayout extends go.GridLayout {
             continue;
             }
 
-            if (i % 2 !== 0) {
-                y += height + this.spacing.height
+            if (i % 2 !== 0 && !smallScreen) {
+                y += boxHeight
                 isRtl = !isRtl
             }
         }
