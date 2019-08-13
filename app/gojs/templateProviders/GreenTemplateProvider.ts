@@ -13,12 +13,22 @@ export default class GreenTemplateProvider {
         const $ = go.GraphObject.make;
 
         return $(go.Node,
-            go.Panel.Auto, 
-            {
-                locationSpot: go.Spot.Center
-            },
-            new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
-            $(go.Shape, 'RoundedRectangle', { desiredSize: new go.Size(100, 100), fill: 'green' })
+            go.Panel.Spot,
+            // {
+            //     locationSpot: go.Spot.Center
+            // },
+            $(go.Shape, 'RoundedRectangle', { desiredSize: new go.Size(100, 100), fill: 'green' }),
+            $(go.TextBlock,
+                {
+                    font: 'bold 19px sans-serif',
+                    isMultiline: false,
+                    editable: true,
+                    alignment: go.Spot.Bottom,
+                    alignmentFocus: go.Spot.Top
+                },
+                new go.Binding('text', 'key', value => `EL_${Math.abs(Number(value))}`),
+                new go.Binding('text', 'text').makeTwoWay()
+            )
         );
     }
 }
