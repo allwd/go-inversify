@@ -2,22 +2,29 @@ import * as go from 'gojs';
 const $ = go.GraphObject.make;
 
 class GridLayout extends go.GridLayout {
-    constructor () {
+    constructor() {
         super();
     }
 
     doLayout(collection) {
-        this.diagram.startTransaction("Serpentine Layout");
+        let list = this.collectParts(collection)
+        if (!list.count) {
+            return
+        }
 
-        const items = this.collectParts(collection);
-        const array = items.toArray().sort(({ data: { text: textA }}, { data: { text: textB }}) => {
-            if (textA === textB) {
-                return 0;
-            }
+        this.diagram.startTransaction("Grid Layout");
 
-            return textA < textB ? -1 : 1;
-        })
-        const { width, height } = items.first().naturalBounds;
+        const items = list
+            .toArray()
+            .sort(({ data: { text: textA } }, { data: { text: textB } }) => {
+                if (textA === textB) {
+                    return 0;
+                }
+
+                return textA < textB ? -1 : 1;
+            })
+
+        const { width, height } = items[0].naturalBounds;
 
         this.arrangementOrigin = this.initialOrigin(this.arrangementOrigin);
         let { x, y } = this.arrangementOrigin;
@@ -30,7 +37,7 @@ class GridLayout extends go.GridLayout {
 
         const smallScreen = this.diagram.viewportBounds.width < boxWidth
 
-        for (let i = 0; i < array.length; i++) {
+        for (let i = 0; i < items.length; i++) {
             let first = isRtl ? leftColX : rightColX;
             let second = !isRtl ? leftColX : rightColX;
             let newX = i % 2 === 0 ? first : second
@@ -40,11 +47,11 @@ class GridLayout extends go.GridLayout {
                 y += boxHeight
             }
 
-            const node = array[i]
+            const node = items[i]
             node.move(new go.Point(newX, y))
 
             if (!(node instanceof go.Node)) {
-            continue;
+                continue;
             }
 
             if (i % 2 !== 0 && !smallScreen) {
@@ -52,8 +59,8 @@ class GridLayout extends go.GridLayout {
                 isRtl = !isRtl
             }
         }
-        
-        this.diagram.commitTransaction("Serpentine Layout");
+
+        this.diagram.commitTransaction("Grid Layout");
     }
 }
 
