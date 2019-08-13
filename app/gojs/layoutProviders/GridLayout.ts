@@ -1,18 +1,13 @@
 import * as go from 'gojs';
-const $ = go.GraphObject.make;
 
 class GridLayout extends go.GridLayout {
-    constructor() {
-        super();
-    }
-
     doLayout(collection) {
         let list = this.collectParts(collection)
         if (!list.count) {
             return
         }
 
-        this.diagram.startTransaction("Grid Layout");
+        this.diagram.startTransaction('Grid Layout');
 
         const items = list
             .toArray()
@@ -28,12 +23,13 @@ class GridLayout extends go.GridLayout {
 
         this.arrangementOrigin = this.initialOrigin(this.arrangementOrigin);
         let { x, y } = this.arrangementOrigin;
+        let isRtl = true
+
         const boxWidth = width + this.spacing.width
         const boxHeight = height + this.spacing.height
 
         const leftColX = x
         const rightColX = x + width + this.spacing.width
-        let isRtl = true
 
         const smallScreen = this.diagram.viewportBounds.width < boxWidth
 
@@ -60,7 +56,7 @@ class GridLayout extends go.GridLayout {
             }
         }
 
-        this.diagram.commitTransaction("Grid Layout");
+        this.diagram.commitTransaction('Grid Layout');
     }
 }
 
