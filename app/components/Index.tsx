@@ -5,9 +5,11 @@ import Actions from './Actions';
 import { container } from '../../inversify.config';
 import { componentSymbols } from '../IoC/Symbols';
 import DiagramStorage from '../helpers/DiagramStorage';
+import * as go from 'gojs'
 
 import './main.scss';
 import ContainerClass from '../helpers/Container';
+import Reloadable from './Reloadable';
 
 const Storage: DiagramStorage = container.get(componentSymbols.diagramStorage);
 const Container: ContainerClass = container.get(componentSymbols.container);
@@ -44,6 +46,9 @@ function Index() {
 
     return (
         <div className={'container'}>
+            {models && Container.getDiagram() instanceof go.Diagram && (
+                <Reloadable />
+            )}
             <div className={'wrapper'}>
                 <Palette />
                 <Diagram />
